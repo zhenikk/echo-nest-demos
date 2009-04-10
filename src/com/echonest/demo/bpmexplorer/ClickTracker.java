@@ -2,15 +2,19 @@
  * This is a processing app that uses the Echo Nest API to generate and
  * show a click plot.  This code is released under a new bsd license.
  */
-
 package com.echonest.demo.bpmexplorer;
-import processing.core.*;
-import ddf.minim.*;
+
+import com.echonest.api.v3.EchoNestException;
+import com.echonest.api.v3.track.FloatWithConfidence;
+import com.echonest.api.v3.track.Metadata;
+import com.echonest.api.v3.track.TrackAPI;
 import com.echonest.api.v3.track.TrackAPI.AnalysisStatus;
-import com.echonest.api.v3.*;
-import com.echonest.api.v3.track.*;
-import java.io.*;
-import java.util.*;
+import ddf.minim.AudioPlayer;
+import ddf.minim.Minim;
+import java.io.File;
+import java.util.List;
+import processing.core.PApplet;
+import processing.core.PFont;
 
 /**
  * The ClickTracker - this was originally developed in processing, which
@@ -18,33 +22,34 @@ import java.util.*;
  * @author plamere
  */
 public class ClickTracker extends PApplet {
+    // private String API_KEY = "YOUR_API_KEY";
+    private String API_KEY = System.getProperty("ECHO_NEST_API_KEY");
+    private TrackAPI trackAPI;
+    private PFont font;
+    private Beat[] beats;
+    private float tempo;
+    private float duration;
+    private float minConfidence = .1f;
+    private float scale = .05f;
+    private float minBpm;
+    private float maxBpm;
+    private float minTick;
+    private float maxTick;
+    private int cursorIndex = 0;
+    private String artistName = "";
+    private String trackName = "";
+    private boolean ready;
+    private boolean loading = false;
+    private String statusMessage = "Generating a plot for Peggy Sue by Buddy Holly";
+    private String initialID = "0aa59ac17d09330584423ce42facf840";
+    private String helpMessage = "  p-play/pause  -/+ zoom  n-upload new file";
+    private String statusPrefix = "?-help ";
+    private String status2 = null;
+    private boolean showHelp = false;
+    private Minim minim;
+    private AudioPlayer player = null;
 
-    String API_KEY = "LPPYGWENLGVWIFDVW";
-    TrackAPI trackAPI;
-    PFont font;
-    Beat[] beats;
-    float tempo;
-    float duration;
-    float minConfidence = .1f;
-    float scale = .05f;
-    float minBpm;
-    float maxBpm;
-    float minTick;
-    float maxTick;
-    int cursorIndex = 0;
-    String artistName = "";
-    String trackName = "";
-    boolean ready;
-    boolean loading = false;
-    String statusMessage = "Generating a plot for Peggy Sue by Buddy Holly";
-    String initialID = "0aa59ac17d09330584423ce42facf840";
-    String helpMessage = "  p-play/pause  -/+ zoom  n-upload new file";
-    String statusPrefix = "?-help ";
-    String status2 = null;
-    boolean showHelp = false;
-    Minim minim;
-    AudioPlayer player = null;
-
+    @Override
     public void setup() {
         size(1000, 480);
         background(0, 0, 0);
@@ -52,6 +57,7 @@ public class ClickTracker extends PApplet {
         textFont(font, 14);
         smooth();
         stroke(255);
+
         try {
             trackAPI = new TrackAPI(API_KEY);
             spawnLoaderFromID(initialID);
@@ -61,192 +67,21 @@ public class ClickTracker extends PApplet {
         minim = new Minim(this);
     }
 
-    public void spawnLoader() {
-        Thread t = new Thread() {
-
-            public void run() {
-                ready = false;
-                if (player != null) {
-                    player.pause();
-                }
-                loading = true;
-                manageUpload();
-                loading = false;
-            }
-        };
-        t.start();
-    }
-
-    public void spawnLoaderFromID(final String id) {
-        Thread t = new Thread() {
-
-            public void run() {
-                ready = false;
-                loading = true;
-                loadFromID(id);
-                loading = false;
-            }
-        };
-        t.start();
-    }
-
-    public void spawnLoaderFromFile(final String path) {
-        Thread t = new Thread() {
-
-            public void run() {
-                ready = false;
-                loading = true;
-                loadFile(path);
-                loading = false;
-            }
-        };
-        t.start();
-    }
-
-    public void loadFromID(String id) {
-        try {
-            Metadata metadata = trackAPI.getMetadata(id);
-            if (metadata.getArtist() != null) {
-                artistName = metadata.getArtist();
-            }
-
-            if (metadata.getTitle() != null) {
-                trackName = metadata.getTitle();
-            }
-
-            tempo = trackAPI.getTempo(id).getValue();
-            status("Data gathered.  Generating the plot ...");
-            List beatList = trackAPI.getBeats(id);
-
-            status("Metadata gathered.  Gathering beat data for the plot ...");
-            beats = new Beat[beatList.size() - 1];
-
-            status("All data gathered.  Generating the plot ...");
-            for (int i = 1; i < beatList.size(); i++) {
-                FloatWithConfidence last = (FloatWithConfidence) beatList.get(i - 1);
-                FloatWithConfidence b = (FloatWithConfidence) beatList.get(i);
-                float secsPerBeat = b.getValue() - last.getValue();
-                float bpm = 60 * 1 / secsPerBeat;
-                beats[i - 1] = new Beat(b.getValue(), b.getConfidence(), bpm);
-            }
-            for (int i = 0; i < beats.length; i++) {
-                filter(beats, i, 5);
-            }
-
-            duration = beats[beats.length - 1].time;
-            applyScale();
-            cursorIndex = 0;
-            ready = true;
-        } catch (EchoNestException e) {
-            error("Problem " + e.getMessage());
-        }
-    }
-
-    public void loadFile(String path) {
-        File f = new File(path);
-        try {
-            trackName = f.getName();
-            status("Uploading " + trackName + " to the Echo Nest for analysis (this may take a minute).");
-            String id = trackAPI.uploadTrack(f, false);
-
-            status("Upload complete. Analyzing ...");
-            AnalysisStatus status = trackAPI.waitForAnalysis(id, 60000);
-            if (status == AnalysisStatus.COMPLETE) {
-                status("Analysis Complete.  Gathering meta data for the plot ...");
-                loadFromID(id);
-                player = minim.loadFile(path);
-                player.setBalance(.75f);
-            } else {
-                error("No analysis " + status);
-            }
-        } catch (EchoNestException e) {
-            error("Trouble loading file ... " + e.getMessage());
-        }
-    }
-
-    public void manageUpload() {
-        if (!ready) {
-            status("Select an MP3 file for upload and analysis");
-            String path = selectInput("Select a track for analysis");
-            if (path != null) {
-                if (path.toLowerCase().endsWith(".mp3")) {
-                    loadFile(path);
-                } else {
-                    error("That doesn't look like an MP3, try something else.");
-                }
-            } else {
-                error("No file selected ... so no plot for you!");
-            }
-        }
-
-    }
-
-    public void status(String msg) {
-        statusMessage = msg;
-    }
-
-    public void error(String msg) {
-        statusMessage = msg;
-    }
-
-    public void filter(Beat[] beats, int which, int size) {
-        float sum = 0;
-        int count = 0;
-        for (int i = which - size; i < which + size; i++) {
-            if (i >= 0 && i < beats.length - 1) {
-                sum += beats[i].bpm;
-                count++;
-            }
-            beats[which].filteredBpm = sum / count;
-        }
-    }
-
-    public void applyScale() {
-        minBpm = tempo * (1 - scale);
-        maxBpm = tempo * (1 + scale);
-        minTick = tempo * (1 - scale / 2);
-        maxTick = tempo * (1 + scale / 2);
-    }
-
-
-    Beat getBeatFromTime(float secs) {
-        int index = 0;
-        for (int i = 0; i < beats.length - 1; i++) {
-            if (secs >= beats[i].time && secs < beats[i + 1].time) {
-                index = i;
-                break;
-            }
-        }
-        cursorIndex = index;
-        return beats[index];
-    }
-
-    void setBeatFromMouse() {
-        if (mousePressed) {
-            getBeatFromTime(map(mouseX, 0, width, 0, duration));
-        }
-    }
-
+    @Override
     public void draw() {
-
         background(0);
-
         fill(100, 255, 100);
         text("The Echo Nest BPM Explorer", 400, 20);
+        showStatus();
 
-        String status = statusPrefix;
-        if (status2 != null) {
-            status += status2;
-        }
-        text(status, 40, height - 40);
 
+        // no plot to draw so just show the status message and return
         if (!ready) {
-            text(statusMessage, 100, 100);
-
             return;
         }
 
         // draw the beat track
+
         float lastX = mapX(0);
         float lastY = mapY(tempo);
         for (int i = 0; i < beats.length; i++) {
@@ -274,7 +109,9 @@ public class ClickTracker extends PApplet {
                 lastY = y;
             }
         }
-        {   // draw reference BPM
+
+        // draw reference BPM
+        {
             float y = mapY(tempo);
             line(0, y, lastX, y);
         }
@@ -288,6 +125,8 @@ public class ClickTracker extends PApplet {
             if (size <= 4) {
                 size = 2;
             }
+
+            // the blue cursor tracks the bpm
             {
                 fill(100, 100, 255);
                 stroke(100, 100, 255);
@@ -296,24 +135,23 @@ public class ClickTracker extends PApplet {
                 ellipse(x, y, size, size);
             }
 
+            // the red cursor tracks the filtered bpm
             {
                 fill(100, 255, 100);
-                stroke(100, 2550, 100);
+                stroke(100, 255, 100);
                 float x = mapX(beat.time);
                 float y = mapY(beat.filteredBpm);
                 ellipse(x, y, size, size);
             }
 
 
-            {
-                text(String.format("Time: %.2f  BPM %.2f  Avg. BPM %.2f",
-                        beat.time, beat.bpm, beat.filteredBpm), 40, height - 10);
-            }
+            // draw the rest of the text
+            text(String.format("Time: %.2f  BPM %.2f  Avg. BPM %.2f",
+                    beat.time, beat.bpm, beat.filteredBpm), 40, height - 10);
+            text(artistName + " - " + trackName, 400, height - 10);
 
+            // draw the tick marks
             {
-                text(artistName + " - " + trackName, 400, height - 10);
-            }
-            {  // draw tick marks
                 drawBPMTick(minTick, false);
                 drawBPMTick(maxTick, true);
                 drawTicks();
@@ -321,7 +159,169 @@ public class ClickTracker extends PApplet {
         }
     }
 
-    public Beat getCurBeat() {
+    private void spawnLoader() {
+        Thread t = new Thread() {
+
+            public void run() {
+                ready = false;
+                if (player != null) {
+                    player.pause();
+                }
+                loading = true;
+                manageUpload();
+                loading = false;
+            }
+        };
+        t.start();
+    }
+
+    private void spawnLoaderFromID(final String id) {
+        Thread t = new Thread() {
+
+            public void run() {
+                ready = false;
+                loading = true;
+                loadFromID(id);
+                loading = false;
+            }
+        };
+        t.start();
+    }
+
+
+    private void loadFromID(String id) {
+        try {
+            Metadata metadata = trackAPI.getMetadata(id);
+            if (metadata.getArtist() != null) {
+                artistName = metadata.getArtist();
+            }
+
+            if (metadata.getTitle() != null) {
+                trackName = metadata.getTitle();
+            }
+
+            tempo = trackAPI.getTempo(id).getValue();
+            statusMessage("Data gathered.  Generating the plot ...");
+            List beatList = trackAPI.getBeats(id);
+
+            statusMessage("Metadata gathered.  Gathering beat data for the plot ...");
+            beats = new Beat[beatList.size() - 1];
+
+            statusMessage("All data gathered.  Generating the plot ...");
+            for (int i = 1; i < beatList.size(); i++) {
+                FloatWithConfidence last = (FloatWithConfidence) beatList.get(i - 1);
+                FloatWithConfidence b = (FloatWithConfidence) beatList.get(i);
+                float secsPerBeat = b.getValue() - last.getValue();
+                float bpm = 60 * 1 / secsPerBeat;
+                beats[i - 1] = new Beat(b.getValue(), b.getConfidence(), bpm);
+            }
+            for (int i = 0; i < beats.length; i++) {
+                filter(beats, i, 5);
+            }
+
+            duration = beats[beats.length - 1].time;
+            applyScale();
+            cursorIndex = 0;
+            ready = true;
+        } catch (EchoNestException e) {
+            error("Problem " + e.getMessage());
+        }
+    }
+
+    private void loadFile(String path) {
+        File f = new File(path);
+        try {
+            trackName = f.getName();
+            statusMessage("Uploading " + trackName + " to the Echo Nest for analysis (this may take a minute).");
+            String id = trackAPI.uploadTrack(f, false);
+
+            statusMessage("Upload complete. Analyzing ...");
+            AnalysisStatus status = trackAPI.waitForAnalysis(id, 60000);
+            if (status == AnalysisStatus.COMPLETE) {
+                statusMessage("Analysis Complete.  Gathering meta data for the plot ...");
+                loadFromID(id);
+                player = minim.loadFile(path);
+                player.setBalance(.75f);
+            } else {
+                error("No analysis " + status);
+            }
+        } catch (EchoNestException e) {
+            error("Trouble loading file ... " + e.getMessage());
+        }
+    }
+
+    private void manageUpload() {
+        if (!ready) {
+            statusMessage("Select an MP3 file for upload and analysis");
+            String path = selectInput("Select a track for analysis");
+            if (path != null) {
+                if (path.toLowerCase().endsWith(".mp3")) {
+                    loadFile(path);
+                } else {
+                    error("That doesn't look like an MP3, try something else.");
+                }
+            } else {
+                error("No file selected ... so no plot for you!");
+            }
+        }
+
+    }
+
+    private void statusMessage(String msg) {
+        statusMessage = msg;
+    }
+
+    private void showStatus() {
+        String status = statusPrefix;
+        if (status2 != null) {
+            status += status2;
+        }
+        text(statusMessage, 100, 100);
+        text(status, 40, height - 40);
+    }
+
+    private void error(String msg) {
+        statusMessage = msg;
+    }
+
+    private void filter(Beat[] beats, int which, int size) {
+        float sum = 0;
+        int count = 0;
+        for (int i = which - size; i < which + size; i++) {
+            if (i >= 0 && i < beats.length - 1) {
+                sum += beats[i].bpm;
+                count++;
+            }
+            beats[which].filteredBpm = sum / count;
+        }
+    }
+
+    private void applyScale() {
+        minBpm = tempo * (1 - scale);
+        maxBpm = tempo * (1 + scale);
+        minTick = tempo * (1 - scale / 2);
+        maxTick = tempo * (1 + scale / 2);
+    }
+
+    private Beat getBeatFromTime(float secs) {
+        int index = 0;
+        for (int i = 0; i < beats.length - 1; i++) {
+            if (secs >= beats[i].time && secs < beats[i + 1].time) {
+                index = i;
+                break;
+            }
+        }
+        cursorIndex = index;
+        return beats[index];
+    }
+
+    private void setBeatFromMouse() {
+        if (mousePressed) {
+            getBeatFromTime(map(mouseX, 0, width, 0, duration));
+        }
+    }
+
+    private Beat getCurBeat() {
         if (player != null && player.isPlaying() && beats.length > 0) {
             float secs = player.position() / 1000;
             return getBeatFromTime(secs);
@@ -329,7 +329,7 @@ public class ClickTracker extends PApplet {
         return beats[cursorIndex];
     }
 
-    public void drawBPMTick(float tick, boolean above) {
+    private void drawBPMTick(float tick, boolean above) {
         stroke(128);
         fill(128);
         float y = mapY(tick);
@@ -339,7 +339,7 @@ public class ClickTracker extends PApplet {
         text(String.format("%.2f BPM", tick), x, textY);
     }
 
-    public void drawTicks() {
+    private void drawTicks() {
         stroke(128);
 
         for (float i = 0; i < duration; i += 10.0f) {
@@ -349,15 +349,12 @@ public class ClickTracker extends PApplet {
         }
     }
 
-    public float mapX(float x) {
+    private float mapX(float x) {
         return map(x, 0, duration, 0, width);
     }
 
-    public float mapY(float y) {
+    private float mapY(float y) {
         return map(y, minBpm, maxBpm, height, 0);
-    }
-
-    public void handleKeys() {
     }
 
     class Beat {
@@ -373,12 +370,13 @@ public class ClickTracker extends PApplet {
             this.bpm = bpm;
         }
 
+        @Override
         public String toString() {
             return time + " " + bpm + " " + confidence;
         }
     }
 
-    public void togglePlaying() {
+    private void togglePlaying() {
         if (player != null) {
             if (player.isPlaying()) {
                 player.pause();
@@ -391,8 +389,10 @@ public class ClickTracker extends PApplet {
         }
     }
 
+    @Override
     public void keyPressed() {
         if (key == CODED) {
+            // deal with the arrow keys
             if (keyCode == LEFT) {
                 cursorIndex -= 1;
                 if (cursorIndex < 0) {
@@ -405,6 +405,7 @@ public class ClickTracker extends PApplet {
                 }
             }
         } else {
+            // deal with the zoom keys
             if (key == '+') {
                 scale -= .01f;
             }
@@ -425,7 +426,7 @@ public class ClickTracker extends PApplet {
 
             if (key == '?') {
                 showHelp = !showHelp;
-                status2 =  showHelp ? helpMessage : null;
+                status2 = showHelp ? helpMessage : null;
             }
         }
     }
