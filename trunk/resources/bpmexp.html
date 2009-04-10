@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="styles.css" />
+        <title>The Echo Nest BPM Explorer</title>
+    </head>
+
+    <body>
+        <center>
+        <h1>The Echo Nest BPM Explorer</h2>
+        <p>
+        <a href="bpm-exp.1.png"><img src="bpm-exp.1.png" style="width:500px;"/></a>
+        <p>
+        <a href="launch.jnlp">Launch the application with Java Webstart</a>
+        </center>
+        <!-- Or use the following script element to launch with the Deployment Toolkit -->
+        <!-- Open the deployJava.js script to view its documentation -->
+        <!--
+        <script src="http://java.com/js/deployJava.js"></script>
+        <script>
+            var url="http://[fill in your URL]/launch.jnlp"
+            deployJava.createWebStartLaunchButton(url, "1.6")
+        </script>
+        -->
+        <div class="info">
+<h1> Man or Machine?</h1>
+This is an application that helps you find out whether a human or a machine is setting the tempo for your favorite music.  To do this, this application generates a click plot that shows the deviations in tempo from the average over the course of a song.  Songs that don't stray too far from the average are likely to be using a click track or a drum machine to set the beat.  For instance, compare the click plot for Nirvana's <i>Smells like Teen Spirit</i> (shown above) to Britney Spears' <i>One more time. </i>.
+<p>
+<center>
+<a href="britney.png"><img src="britney.png" style="width:500px;"/></a>
+</center> <p>
+The click plot for Britney shows a rather flat line indicating that she uses a machine to set the tempo, while Nirvana's plot wanders around, indicating that their is probably a human in charge.
+<p>
+This application was inspired
+by the blog post <a
+href="http://musicmachinery.com/2009/03/02/in-search-of-the-click-track/">In
+search of the click track</a> that explored the steadiness of tempo
+for various contemporary artists.  
+<h3> How do you use this application? </h3>
+ <ul>
+     <li> <a href="launch.jnlp">Launch the application</a> - the application will ask you to trust me. That is because the application is going to talk over the network to developer.echonest.com in order to upload a music file that you've selected for analysis. If you want to run the app, you will have to trust me.
+     <li> Once the application is loaded and running, you'll see a click plot of Buddy Holly's Peggy Sue. The plot shows the average BPM (the straight horizontal line), the actual BPM (the grey jagged line) and a smoothed version (the smoother green line).   You can use the arrow keys or your mouse to move the green and blue cursors.  The cursors change size based on how confident we are about that particular beat.  You can also zoom in and out with the plus and minus keys.
+     <li>  To analyze your own music press 'n'. A file selection dialog will open. Use this to select an MP3 file from your music collection. When you click OK,  the track is uploaded to the Echo Nest for analysis. After a few seconds (or a minute for a long song), a click plot for your track will be displayed.
+     <li> You can listen to your track synchronized with the plot by pressing the 'p' key.  Music will start playing at the time selected by the cursor.
+ </ul>
+<h3> How does it work? </h3>
+This application uses the Echo Nest track analysis web service to analyze a track for detailed tempo and beat information. This application collects the analysis and then generates the plot.
+        </div>
+        <center>
+                <hr>
+                Copyright &copy; 2009 - The Echo Nest
+                <br>
+                Send questions or comments to Paul@echonest.com
+                <br>
+                <span><img src="140x50_lt.gif"/></span>
+            </div>
+        </center>
+    </body>
+</html>
