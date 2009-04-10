@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp codebase="http://static.echonest.com/bpmexp/" href="launch.jnlp" spec="1.0+">
+    <information>
+        <title>The Echo Nest BPM Explorer</title>
+        <vendor>plamere</vendor>
+        <homepage href=""/>
+        <description>Explore Beat consistency in music</description>
+        <description kind="short">View interactive click plots</description>
+    <icon href="140x50_lt.gif" kind="default"/>
+<offline-allowed/>
+</information>
+<security>
+<all-permissions/>
+</security>
+    <resources>
+<j2se version="1.5+"/>
+<jar eager="true" href="BPMExplorer.jar" main="true"/>
+<jar href="lib/EchoNestAPI.jar"/>
+<jar href="lib/core.jar"/>
+<jar href="lib/jsminim.jar"/>
+<jar href="lib/jl1.0.jar"/>
+<jar href="lib/tritonus_aos.jar"/>
+<jar href="lib/tritonus_share.jar"/>
+<jar href="lib/mp3spi1.9.4.jar"/>
+<jar href="lib/minim-spi.jar"/>
+<jar href="lib/minim.jar"/>
+</resources>
+    <application-desc main-class="com.echonest.demo.bpmexplorer.ClickTracker">
+    </application-desc>
+</jnlp>

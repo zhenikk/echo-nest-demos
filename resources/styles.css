@@ -1,0 +1,1154 @@
+/* 
+    Document   : styles
+    Created on : Apr 1, 2009, 10:02:15 AM
+    Author     : plamere
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+/* ELEMENTS */
+
+
+.text{ margin: 20px;}
+
+a {
+    color: #009DE8;
+    text-decoration: none;
+}
+
+b {
+        color: #009de8;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a img {
+    border: 0;
+}
+
+body {
+    margin: 20px;
+    color: #586168;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.info {
+     margin: 20px;
+}
+
+.results {
+    font-size: 16pt;
+    margin: 35px auto;
+}
+
+
+
+h1 {
+    font-size: 18pt;
+}
+
+hr {
+    border: 0;
+    border-top: 1px dashed #BABCBF;
+    height: 0;
+    margin: 20px 0;
+}
+
+.inputsubmit {
+    background: #009DE8 url('http://the.echonest.com/media/images/layout/button_blue.gif') repeat-x top center;
+    border: 1px solid #0D8CC9;
+    border-bottom-color: #1D60AC;
+    border-right-color: #1D60AC;
+    color: #fff;
+    cursor: pointer;
+    font-size: 12pt;
+    font-weight: bold;
+    min-height: 24px;
+    padding: 2px 13px;
+}
+
+.inputpassword,
+.inputtext {
+    font-size: 12pt;
+    height: 20px;
+}
+
+ol {
+    padding: 0 1em 0 2em;
+}
+
+ol li {
+    margin-top: 0.4em;
+}
+
+sup {
+    font-size: 65%;
+}
+
+table {
+    margin-bottom: 0;
+}
+
+td {
+    padding: 0 20px 0.35em 0;
+}
+
+/* LAYOUT */
+
+#frame {
+    margin: 15px auto;
+    width: 1000px;
+}
+
+#header, #content, #content-edge, #content-gradient, #content-left, #tabs, #content-right, #footer {
+    float: left;
+}
+
+#header, #footer {
+    clear: both;
+    width: 100%;
+}
+
+#header {
+    background: url('http://the.echonest.com/media/images/layout/edges.gif') no-repeat right -78px;
+    margin-bottom: 11px;
+}
+
+#footer {
+    background: #A5ADB3 url('http://the.echonest.com/media/images/layout/edges.gif') no-repeat right -234px;
+    margin: 16px 0 0;
+}
+
+#header .edge, #footer .edge {
+    height: 78px;
+    padding-left: 5px;
+    width: 990px;
+}
+
+#header .edge {
+    background: url('http://the.echonest.com/media/images/layout/edges.gif') no-repeat left 0;
+}
+
+#footer .edge {
+    background: #A5ADB3 url('http://the.echonest.com/media/images/layout/edges.gif') no-repeat left -156px;
+}
+
+#header .gradient {
+    background: url('http://the.echonest.com/media/images/layout/header.gif') repeat-x left center;
+    height: 100%;
+}
+
+#header #logo {
+    background: url('http://the.echonest.com/media/images/layout/divider.gif') no-repeat right center;
+    float: left;
+    height: 100%;
+    margin-left: 8px;
+    padding-right: 22px;
+}
+
+#header ul {
+    height: 100%;
+    list-style: none;
+}
+
+#header ul li {
+    display: inline;
+    height: 100%;
+}
+
+#header ul a {
+    background: url('http://the.echonest.com/media/images/layout/divider.gif') no-repeat right center;
+    float: left;
+    padding: 30px 25px 0;
+    text-decoration: none;
+}
+
+#header ul a#account {
+    background: none;
+    height: 48px;
+    padding: 22px 0 8px 14px;
+}
+
+#header ul span {
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-size: 14px;
+    font-weight: bold;
+    height: 48px;
+}
+
+#header ul li a:hover span {
+    color: #009DE8;
+}
+
+#footer,
+#footer a {
+    color: #fff;
+    font-size: 8pt;
+    word-spacing: normal;
+}
+
+#footer #copyright,
+#footer #links {
+    padding-top: 9px;
+}
+
+#footer #copyright {
+    float: left;
+    margin-left: 25px;
+}
+
+#footer #links {
+    margin-left: 246px;
+    word-spacing: 7px;
+}
+
+#content {
+    background: #fff url('http://the.echonest.com/media/images/layout/inner/inner_edge_right.gif') no-repeat right top;
+    min-height: 755px;
+    width: 100%;
+}
+
+#content-edge {
+    background: url('http://the.echonest.com/media/images/layout/inner/inner_edge_left.gif') no-repeat left top;
+    min-height: inherit;
+    padding-left: 5px;
+    width: 990px;
+}
+
+#content-gradient {
+    background: url('http://the.echonest.com/media/images/layout/inner/inner_gradient.gif') repeat-x left top;
+    min-height: inherit;
+    padding-top: 24px;
+    width: 100%;
+}
+
+#content-main {
+    color: #13171B;
+    padding: 15px;
+}
+
+#content-main .edge {
+    background: url('http://the.echonest.com/media/images/layout/inner/inner_shadow_left.png') no-repeat left top;
+    min-height: 759px;
+}
+
+#content-main .gradient {
+    background: #fff;
+    float: left;
+    min-height: 759px;
+    margin: 0 5px;
+    padding: 35px;
+}
+
+body#account-detail #content-main .gradient,
+body#error #content-main .gradient,
+body#logos #content-main .gradient,
+body.method #content-main .gradient,
+body#register #content-main .gradient {
+    float: none;
+}
+
+body#dashboard #content-main .gradient,
+body.forums #content-main .gradient,
+body#showcase #content-main .gradient,
+body#showcase-submit #content-main .gradient,
+body#user #content-main .gradient {
+    width: 880px;
+}
+
+/* TABS */
+
+#tabs {
+    float: none;
+    left: -1px;
+    overflow: hidden;
+    position: relative;
+}
+
+#tabs ul {
+    margin: 0;
+    list-style: none;
+}
+
+#tabs li {
+    background: url('http://the.echonest.com/media/images/layout/dev/tab_shadow_left.png') no-repeat left center;
+    float: left;
+    margin-right: 2px;
+}
+
+#tabs a {
+    background: url('http://the.echonest.com/media/images/layout/dev/tab_shadow_right.png') no-repeat right center;
+    float: left;
+    margin: 0 0 0 6px;
+    padding: 0 6px 0 0;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    height: 32px;
+    width: 100px;
+}
+
+#tabs a span {
+    background-color: #A0A8AF;
+    color: #fff;
+    display: block;
+    font-size: 9pt;
+    font-weight: bold;
+    height: 100%;
+    padding-top: 7px;
+}
+
+body#account-detail li#tabs-account-detail span,
+body#dashboard li#tabs-dashboard span,
+body#showcase li#tabs-showcase span,
+body#showcase-detail li#tabs-showcase span,
+body#showcase-submit li#tabs-submit span,
+body#terms li#tabs-terms span,
+body#logos li#tabs-logos span {
+    background-color: #fff;
+    color: #586168;
+}
+
+#tabs a:hover span {
+    background-color: #808990;
+}
+
+#tabs a:hover div {
+    background-image: url('http://the.echonest.com/media/images/layout/dev/tab_shadow_middle_on.png');
+}
+
+/* OTHER SHARED */
+
+.blue {
+    background: #A6E2FF;
+    border: 1px solid #11A4EA;
+    padding: 20px;
+}
+
+.blue h1 {
+    margin-bottom: 0.65em;
+}
+
+.blue p {
+    font-size: 1.0em;
+    margin: 0;
+}
+
+.center {
+    text-align: center;
+}
+
+div.errors {
+    margin: 0 0 1em;
+    padding: 1em;
+    border: 1px dashed #e33;
+    background: #fcc;
+}
+
+div.errors ul {
+    margin: 0 2em;
+    font-size: 9pt;
+}
+
+label.error {
+    color: #c00;
+}
+
+label.error:before {
+    content: "*"
+}
+
+#login-status {
+    float: right;
+    font-size: 11px;
+    margin:0 5px 10px 0;
+}
+
+.message {
+    background: #f3f8fc url('/media/images/information.png') 8px 50% no-repeat;
+    font-size: 0.9em;
+    border: 1px solid #b2d1ff;
+    margin: 10px 0 5px 0;
+    padding: 10px 5px 10px 30px
+}
+
+.sidebar {
+    border: 4px solid #DFE2E4;
+    padding: 17px 22px;
+    margin: 0 0 30px;
+}
+
+.sidebar h2 {
+    font-size: 1.2em;
+    margin: 0.65em 0 0.5em;
+}
+
+.sidebar h3 {
+    font-size: 13pt;
+}
+
+.sidebar ul {
+    font-size: 11pt;
+    font-weight: bold;
+    list-style: none;
+    margin-bottom: 1.6em;
+}
+
+/* ACCOUNT DETAIL */
+
+body#account-detail .blue {
+    clear: both;
+    margin-top: 0.25em;
+    font-size: 0.9em;
+    padding: 1em;
+}
+
+body#account-detail p#login-option,
+body#register p#login-option {
+    float: right;
+    font-size: 16pt;
+    font-weight: bold;
+    text-align: right;
+}
+
+body#account-detail table#subscriptions {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+body#account-detail table#subscriptions th {
+    background-color: #F5F6F6;
+    border: solid #CBCACC 1px;
+    color: #13171B;
+    text-align: left;
+    padding: 4px;
+}
+
+body#account-detail table#subscriptions td {
+    border: solid #CBCACC 1px;
+    padding: 6px;
+}
+
+/* DATATYPES */
+
+body#datatypes #content-main-right ol,
+body#datatypes #content-main-right ul {
+    margin-left: 2em;
+}
+
+body#datatypes #content-main-right ol li,
+body#datatypes #content-main-right ul li {
+    margin-top: 2px;
+}
+
+body#datatypes #content-main-right ol ol,
+body#datatypes #content-main-right ol ul,
+body#datatypes #content-main-right ul ol,
+body#datatypes #content-main-right ul ul {
+    margin-bottom: 0;
+}
+
+/* ERROR */
+
+body#error h1 {
+    margin-bottom: 5px;
+}
+
+body#error p {
+    font-size: 12pt;
+}
+
+/* FEEDS */
+
+body#feeds h1 {
+    margin-bottom: 0.65em;
+}
+
+body#feeds h2 {
+    margin-bottom: 13px;
+}
+
+body#feeds ul.feeds {
+    list-style: none;
+    margin-bottom: 16px;
+}
+
+body#feeds ul.feeds li {
+    background: #F5F6F7;
+    font-size: 10pt;
+    padding: 14px 24px;
+}
+
+body#feeds ul.feeds li.odd {
+    background: #FCFCFC;
+}
+
+body#feeds ul.feeds li .links {
+    float: right;
+    font-size: 11pt;
+    font-weight: bold;
+    position: relative;
+    top: 14px;
+}
+
+body#feeds .notes {
+    background: #F5F6F7;
+    border: 1px solid #DADADB;
+    font-size: 10pt;
+}
+
+body#feeds .notes h3 {
+    font-size: 14pt;
+    margin-bottom: 10px;
+}
+
+body#feeds .notes h4 {
+    margin-bottom: 2px;
+}
+
+/* FORUMS */
+
+body.forums h1 {
+    border-bottom: 1px dashed #BABCBF;
+    margin-bottom: 8px;
+}
+
+body#thread-list.forums h1,
+body#thread.forums h1 {
+    font-size: 14pt;
+    margin-bottom: 1em;
+}
+
+body.forums table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+body#forum-list.forums table {
+    margin-top: 22px;
+}
+
+body#forum-list.forums table tr.odd {
+    background: #F5F6F6;
+}
+
+body.forums table th {
+    background-color: #F5F6F6;
+    border: solid #CBCACC 1px;
+    color: #13171B;
+    text-align: left;
+    padding: 4px;
+}
+
+body.forums table td {
+    border: solid #CBCACC 1px;
+    padding: 6px;
+}
+
+body#thread-list.forums table#this-forum th.posts,
+body#thread-list.forums table#this-forum th.views {
+    width: 50px;
+}
+
+body#thread-list.forums table#sub-forums th.last-post,
+body#thread-list.forums table#this-forum th.last-post {
+    width: 220px;
+}
+
+body#forum-list.forums table td.details {
+    width: 70%;
+}
+
+body#forum-list.forums table td.details strong {
+    font-size: 120%;
+}
+
+body#forum-list.forums table td.details span.stats {
+    font-size: 80%;
+}
+
+body.forums a.search,
+body#thread.forums a.reply {
+    float: right;
+    font-size: 10pt;
+}
+
+body.forums a.search {
+    background: url('/media/images/forum/search.png') no-repeat left center;
+    margin: 10px 0 0 10px;
+    padding-left: 20px;
+}
+
+body#thread-list.forums a.search {
+    margin-top: 5px;
+}
+
+body#thread.forums a.reply {
+    background: url('/media/images/forum/reply.gif') no-repeat left center;
+    margin: 3px 0 0 10px;
+    padding-left: 17px;
+}
+
+body#thread.forums table th.author {
+    width: 20%;
+}
+
+body#thread.forums table td.details {
+    line-height: 1.25;
+    vertical-align: top;
+}
+
+body#thread.forums table td.details a {
+    font-weight: bold;
+}
+
+body#thread.forums table td.body div.date {
+    border-bottom: 1px dashed #BABCBF;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+}
+
+body#thread.forums table td.body ol,
+body#thread.forums table td.body ul {
+    margin-left: 2em;
+}
+
+body#thread.forums table td.body pre {
+    margin-bottom: 1em;
+}
+
+body#thread-list.forums fieldset,
+body#thread.forums fieldset {
+    margin-top: 40px;
+}
+
+body#thread-list.forums fieldset h3,
+body#thread.forums fieldset h3 {
+    font-size: 14pt;
+    margin-bottom: 5px;
+}
+
+body#thread-list.forums fieldset input#id_title,
+body#thread.forums fieldset input#id_title {
+    margin-bottom: 50px;
+}
+
+body#thread-list.forums fieldset textarea,
+body#thread.forums fieldset textarea {
+    display: block;
+    height: 150px;
+    width: 100%;
+}
+
+body#thread-list.forums fieldset div.wmd-preview,
+body#thread.forums fieldset div.wmd-preview {
+    border: 1px solid #999;
+    min-height: 20px;
+    padding: 5px;
+}
+
+body#forum-search.forums fieldset select {
+    font-size: 12px;
+}
+
+body#forum-search.forums table tr {
+    vertical-align: top;
+}
+
+body#forum-search.forums table td {
+    border: 0;
+}
+
+body#forum-search.forums ul#results {
+    border: 1px dashed #BABCBF;
+    list-style: none;
+    padding: 27px 37px;
+}
+
+body#forum-search.forums ul#results li.result {
+    border-bottom: 1px dashed #BABCBF;
+    margin-bottom: 15px;
+}
+
+body#forum-search.forums ul#results li.result p.footer {
+    font-style: italic;
+}
+
+/* HOME */
+
+body#home #content-main-left {
+    float: left;
+    margin-right: 35px;
+    width: 585px;
+}
+
+body#home #content-main-right {
+    float: left;
+    width: 250px;
+}
+
+/*#note,*/
+body#home #content-main-left h2,
+body#home #content-main-left ul.methods,
+body#feeds .notes {
+    padding: 17px 24px;
+}
+
+body#home #content-main-left h2 {
+    padding-bottom: 0;
+}
+
+body#home #content-main-left ul.methods,
+body#home #content-main-left ul.methods li.namespace ul {
+    list-style: none;
+}
+
+body#home #content-main-left ul.methods {
+    clear: left;
+    margin: 0 0 20px;
+    padding-right: 0;
+}
+
+body#home #content-main-left ul.methods li.namespace {
+    float: left;
+    width: 185px;
+    margin-bottom: 25px;
+}
+
+body#home #content-main-left ul.methods li.namespace h3 {
+    margin-bottom: 3px;
+}
+
+body#home #content-main-left ul.methods li.namespace ul {
+    font-size: 10pt;
+}
+
+body#home #content-main-left p.introduction {
+    padding-top: 10px;
+    padding-left: 24px;
+}
+
+body#home #content-main-right div.showcase h2.headline {
+    margin-top: 0;
+}
+
+body#home #content-main-right div.showcase ul li {
+    font-weight: normal;
+    margin: 0 0 2em;
+}
+
+/* METHOD */
+
+body.method .blue {
+    margin: 6px 0 14px;
+    padding: 0;
+}
+
+body.method .blue p {
+    margin: 20px;
+}
+
+body.method #content-main-left,
+body#showcase-detail #content-main-left {
+    float: left;
+    width: 250px;
+}
+
+body.method #content-main-right,
+body#showcase-detail #content-main-right {
+    float: left;
+    margin-left: 35px;
+    width: 585px;
+}
+
+body.method #content-main-right h2 {
+    margin: 15px 0 3px;
+}
+
+body.method .unavailable {
+    margin: 6px 0 14px;
+    border: 1px solid #e33;
+    background: #fcc;
+}
+
+body.method .unavailable p {
+    font-size: 1em;
+    margin: 20px;
+}
+
+body.method pre,
+body.method .set {
+    margin-bottom: 18px;
+}
+
+body.method pre {
+    background: #F5F6F7;
+    border: 1px solid #CBCBCD;
+    margin-top: 5px;
+    overflow: scroll;
+    padding: 24px;
+}
+
+body#datatypes pre {
+    overflow: auto;
+}
+
+body.method .set {
+    font-size: 9pt;
+    line-height: 1.5;
+    list-style: none;
+}
+
+body.method .set span {
+    font-weight: bold;
+    margin-right: 3px;
+}
+
+body.method .set .code {
+    font-family: monospace;
+}
+
+body.method .sidebar h1 {
+    border-bottom: 1px dashed #BABCBF;
+    margin-bottom: 10px;
+    padding-bottom: 4px;
+}
+
+body.method .sidebar ul.methods {
+    margin-left: 12px;
+}
+
+body.method #content-main-right table.zebra {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #CBCBCD;
+}
+
+body.method #content-main-right table.zebra td,
+body.method #content-main-right table.zebra th {
+    padding: 6px 4px;
+    vertical-align: top;
+}
+
+body.method #content-main-right table.zebra thead th {
+    background: #F5F6F7;
+    border-bottom: 1px solid #CBCBCD;
+}
+
+body.method #content-main-right table.zebra th {
+    text-align: left;
+}
+
+body.method #content-main-right table.zebra tr.odd td,
+body.method #content-main-right table.zebra tr.odd th {
+    background: #F6F6F7;
+}
+
+/* REGISTER */
+
+body#register textarea#terms {
+     height: 300px;
+     margin: 0 0 10px;
+     width: 100%;
+}
+
+/* SCHEMA */
+
+body#schema .nest {
+    margin-left: 3em;
+    font-family: "courier";
+}
+
+body#schema .optional {
+    border-left: 5px solid #f93;
+    padding: 5px;
+    margin: 0;
+}
+
+body#schema .zeroOrMore {
+    border-left: 5px solid #c60;
+    padding: 5px;
+    margin: 0;
+}
+
+body#schema .choice {
+    padding: 5px;
+    margin: 0;
+    border-left: 5px solid #300;
+}
+
+body#schema .element {
+    padding: 5px;
+    margin: 0;
+    font-family: "courier";
+}
+
+body#schema .attribute {
+    font-family: "courier";
+    padding: 5px;
+    margin: 0;
+}
+
+body#schema p.ref {
+    padding: 5px;
+    margin: 0;
+}
+
+body#schema p.datatype {
+    background: #fdd;
+    padding: 5px;
+    margin: 0;
+    font-family: "courier";
+}
+
+body#schema p.values {
+    background: #ffe;
+    padding: 5px;
+    margin: 0;
+}
+
+body#schema span.parameters {
+    display: block;
+    background: #fee;
+    padding: 5px;
+    margin: 5px;
+}
+
+body#schema p.text {
+    padding: 5px;
+    margin: 0;
+}
+
+body#schema .documentation {
+    font-family: sans-serif;
+    border-bottom: 1px solid #ccf;
+    background: #eef;
+    color: #000;
+    padding: 5px 5px;
+    margin: 15px 0 5px;
+}
+
+/* SHOWCASE */
+
+body#showcase h1 {
+    border-bottom: 1px dashed #BABCBF;
+    padding: 0 0 2px;
+}
+
+body#showcase #top ul,
+body#showcase #other ul {
+    list-style: none;
+}
+
+body#showcase #top ul li,
+body#showcase #other ul li {
+    float: left;
+    padding: 20px 0 15px;
+}
+
+body#showcase #top ul li h2,
+body#showcase #other ul li h2 {
+    font-size: 16pt;
+    letter-spacing: 0.2px;
+}
+
+body#showcase #top ul li div.screenshot,
+body#showcase #other ul li div.screenshot,
+body#home .showcase ul li div.screenshot {
+    border: 4px solid #DFE2E4;
+}
+
+body#showcase #other ul li img {
+    width: 111px;
+}
+
+body#home .showcase ul li img,
+body#showcase #top ul li img {
+    width: 188px;
+}
+
+body#showcase #top ul li p,
+body#showcase #other ul li p {
+    line-height: 1.5;
+    margin: 5px 0;
+}
+
+body#showcase #top ul li {
+    margin-right: 20px;
+    width: 200px;
+}
+
+body#showcase #top ul li h2 {
+    margin-bottom: 5px;
+}
+
+body#showcase #top ul li div.screenshot {
+    height: 131px;
+    margin-bottom: 5px;
+    overflow: hidden;
+    width: 188px;
+}
+
+body#showcase #other {
+    clear: left;
+    padding-top: 30px;
+}
+
+body#showcase #other ul li {
+    border-bottom: 1px dashed #BABCBF;
+    margin-right: 20px;
+    width: 420px;
+}
+
+body#showcase #other ul li div.screenshot {
+    float: left;
+    height: 78px;
+    overflow: hidden;
+}
+
+body#showcase #other ul li h2,
+body#showcase #other ul li p {
+    margin-left: 130px;
+}
+
+body#showcase #other ul li h2 {
+    margin-bottom: 5px;
+}
+
+body#showcase .paging {
+    clear: both;
+    display: block;
+    text-align: center;
+    margin: 10px 0;
+    padding: 10px 0;
+    font-size: 0.8em;
+}
+
+body#showcase .paging a {
+    padding: 2px 6px;
+    margin: 0 3px;
+    border: 1px solid #eee;
+}
+
+/*
+body#showcase .paging a.previousStep { }
+body#showcase .paging a.step { }
+body#showcase .paging a.nextStep { }
+*/
+
+body#showcase .paging span.currentStep {
+    background: #eee;
+    padding: 2px 6px;
+    margin: 0 3px;
+    border: 1px solid #ddd;
+}
+
+/* SHOWCASE DETAIL */
+
+body#showcase-detail #content-main-right h1 {
+    border-bottom: 1px dashed #BABCBF;
+    margin: 0 0 1em;
+    padding: 0 0 2px;
+}
+
+body#showcase-detail #content-main-right img#screenshot {
+    border: 4px solid #DFE2E4;
+    float: right;
+    margin: 0 0 20px 20px;
+    max-width: 303px;
+}
+
+body#showcase-detail #content-main-right ul#stats {
+    font-size: 9pt;
+    line-height: 1.5;
+    list-style: none;
+}
+
+body#showcase-detail #content-main-right h2 {
+    font-size: 16pt;
+    margin: 0.5em 0 0;
+}
+
+body#showcase-detail #content-main-right p {
+    line-height: 1.5;
+}
+
+/* SHOWCASE SUBMIT */
+
+body#showcase-submit h1 {
+    margin-bottom: 0.5em;
+}
+
+body#showcase-submit #screenshot {
+    float: right;
+}
+
+body#showcase-submit #screenshot img {
+    border: 4px solid #DFE2E4;
+    display: block;
+    margin: 0 0 8px;
+}
+
+body#showcase-submit fieldset input.inputtext,
+body#showcase-submit fieldset textarea {
+    width: 300px;
+}
+
+body#showcase-submit fieldset textarea {
+    height: 100px;
+}
+
+body#showcase-submit fieldset #id_app_created {
+    display: inline;
+    margin-right: 3px;
+}
+
+/* USER PROFILE */
+
+body#user table {
+    width: 100%;
+}
+
+body#user table tr {
+    vertical-align: top;
+}
+
+body#user table tr th {
+    text-align: left;
+    width: 150px;
+}
+
+/* VERSION HISTORY */
+
+body#versions #content-main-right h1 {
+    border-bottom: 1px dashed #BABCBF;
+    margin-bottom: 1em;
+    padding-bottom: 4px;
+}
+
+body#versions #content-main-right ul {
+    margin-left: 1.5em;
+}
+
+body#versions #content-main-right ul li {
+    margin-bottom: 0.5em;
+}
+
+body#versions #content-main-right ul ul,
+body#versions #content-main-right ul ul li {
+    margin-bottom: 0;
+}
+
+body#versions #content-main-right table.zebra tbody tr th {
+    text-align: center;
+}
